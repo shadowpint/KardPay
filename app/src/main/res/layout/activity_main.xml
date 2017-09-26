@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<android.support.v4.widget.DrawerLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/drawerLayout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
+    android:background="@color/background">
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fitsSystemWindows="true"
+        android:orientation="vertical"
+        android:gravity="center">
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="?attr/colorPrimary"
+        android:elevation="5dp"
+        android:minHeight="?attr/actionBarSize"
+        app:contentInsetStart="72dp"
+        app:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+        tools:ignore="UnusedAttribute" />
+
+        <TextView
+            android:id ="@+id/transaction_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:maxLines="5"
+            android:textAlignment="center"
+            android:gravity="center"
+            android:singleLine="false"
+
+            android:textColor="@color/cardview_light_background"
+            android:background="@drawable/button_animation"
+            android:padding="5dp"
+
+            android:layout_marginTop="30dp"
+            android:layout_marginBottom="30dp"
+            />
+
+    <LinearLayout
+
+        android:layout_width="match_parent"
+        android:layout_height="46dp"
+        android:orientation="horizontal"
+
+        android:layout_marginLeft="30dp"
+        android:layout_marginRight="30dp"
+        >
+
+        <Button
+            android:id ="@+id/pay_button"
+            android:layout_width="130dp"
+            android:layout_height="40dp"
+            android:text="Pay"
+            android:textColor="@color/cardview_light_background"
+            android:background="@drawable/button_animation"
+            android:layout_gravity="left"
+
+            android:layout_marginTop="30dp"
+            android:layout_marginBottom="30dp"
+            android:layout_marginRight="30dp" />
+        <Button
+            android:id ="@+id/Transfer_button"
+            android:layout_width="130dp"
+            android:layout_height="40dp"
+            android:text="Transfer"
+            android:textColor="@color/cardview_light_background"
+            android:layout_gravity="right"
+            android:layout_marginTop="30dp"
+            android:layout_marginBottom="30dp"
+            android:layout_marginLeft="10dp"
+            android:background="@drawable/button_animation"
+
+            />
+    </LinearLayout>
+
+    <android.support.v4.view.ViewPager
+        android:id="@+id/viewPager"
+        android:layout_width="match_parent"
+        android:layout_height="330dp"
+
+        android:clipToPadding="false"
+        android:overScrollMode="never"
+        android:paddingBottom="16dp"
+        android:paddingLeft="@dimen/card_padding"
+        android:paddingRight="@dimen/card_padding" />
+
+
+    <android.support.design.widget.BottomNavigationView
+        android:id="@+id/navigation"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+
+        android:background="@android:color/transparent"
+        app:itemIconTint="@color/nav_item_state_list"
+        app:itemTextColor="@color/nav_item_state_list"
+        app:menu="@menu/bottom_navigation_items"/>
+        </LinearLayout>
+
+<com.heinrichreimersoftware.materialdrawer.DrawerView
+android:id="@+id/drawer"
+android:layout_width="match_parent"
+android:layout_height="match_parent"
+android:layout_gravity="start"
+android:fitsSystemWindows="true"
+    android:background="@color/color_primary"/>
+
+    </android.support.v4.widget.DrawerLayout>
+

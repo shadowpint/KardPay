@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#242a38</color>
+    <color name="colorPrimaryDark">#1c2229</color>
+    <color name="colorAccent">#FF4081</color>
+    <color name="colorPrimary_low">#03A9F4</color>
+
+    <color name="material_blue_500">#009688</color>
+    <color name="material_blue_700">#00796B</color>
+    <color name="material_green_A200">#FD87A9</color>
+
+    <color name="primary">#03A9F4</color>
+    <color name="primary_dark">#00BCD4</color>
+    <color name="primary_darker">#009688</color>
+    <color name="accent">#FFFFFF</color>
+
+    <color name="black">#000000</color>
+    <color name="jet">#222222</color>
+    <color name="oil">#333333</color>
+    <color name="monsoon">#777777</color>
+    <color name="jumbo">#888888</color>
+    <color name="aluminum">#999999</color>
+    <color name="base">#AAAAAA</color>
+    <color name="iron">#CCCCCC</color>
+
+    <color name="viewBg">#E8E8E8</color>
+
+    <color name="album_title">#4c4c4c</color>
+    <color name="red">#fc1606</color>
+    <color name="white">#FFFFFF</color>
+    <color name="white_trans">#99FFFFFF</color>
+
+
+    <color name="color_primary">#242a38</color>
+    <!-- Brown 700 -->
+    <color name="color_primary_dark">#1c2229</color>
+    <!-- Deep Orange A400 -->
+    <color name="color_accent">#FF3D00</color>
+
+    <!-- Teal 600 -->
+    <color name="color_primary_3">#00897B</color>
+    <!-- Teal 800 -->
+    <color name="color_primary_dark_3">#00695C</color>
+    <!-- Cyan A200 -->
+    <color name="color_accent_3">#18FFFF</color>
+    <!-- Blue Grey 800 -->
+    <color name="window_background_3">#263238</color>
+    <!-- White 100% -->
+    <color name="text_color_primary_3">#FFFFFF</color>
+    <!-- White 70% -->
+    <color name="text_color_secondary_3">#B3FFFFFF</color>
+
+
+    <color name="primary_text">#212121</color>
+    <color name="secondary_text">#727272</color>
+    <color name="icons">#212121</color>
+    <color name="divider">#B6B6B6</color>
+
+
+
+    <color name="grey_100">#F5F5F5</color>
+    <color name="grey_300">#E0E0E0</color>
+    <color name="background">#171c2f</color>
+    <color name="transparent">@android:color/transparent</color>
+</resources>

@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "796280119727",
+    "firebase_url": "https://kradpa.firebaseio.com",
+    "project_id": "kradpa",
+    "storage_bucket": "kradpa.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:796280119727:android:84ce24ec00a14493",
+        "android_client_info": {
+          "package_name": "tech.codefest.kradpay"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "796280119727-hhol6fpst1139o2obsjlrvgh01k165ng.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "tech.codefest.kradpay",
+            "certificate_hash": "a8e2c4e8850598992239e0ef8ee87370f7876be4"
+          }
+        },
+        {
+          "client_id": "796280119727-hmme9puekmkefspgvqfscpsvlgpefnbj.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCgd46jkaStLl_8HQdj6fWYgBlHDPLSJeI"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "796280119727-hmme9puekmkefspgvqfscpsvlgpefnbj.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

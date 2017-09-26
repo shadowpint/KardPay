@@ -1,0 +1,263 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:scrollbars="none"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    tools:showIn="@layout/activity_main"
+    tools:context=".MainActivity">
+
+  <LinearLayout
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:orientation="vertical">
+
+    <android.support.v7.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/card_margin">
+      <LinearLayout
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:orientation="vertical">
+
+      <TextView
+          android:id="@+id/account"
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+
+          android:paddingLeft="@dimen/album_title_padding"
+          android:paddingRight="@dimen/album_title_padding"
+          android:paddingTop="@dimen/album_title_padding"
+          android:layout_alignParentTop="true"
+          android:textColor="#000"
+          android:text="Account"
+          android:textAppearance="@style/TextAppearance.AppCompat.Title" />
+      <LinearLayout
+
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:orientation="horizontal"
+
+
+          >
+
+        <TextView
+            android:id="@+id/balance"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+
+            android:text="@string/Rs"
+            android:textColor="#000"
+            android:layout_gravity="left"
+            android:layout_weight=".5"
+            android:layout_marginTop="30dp"
+            android:layout_marginBottom="30dp"
+            android:layout_marginLeft="10dp"
+           />
+
+        <Button
+            android:id="@+id/refresh"
+            android:layout_width="250dp"
+            android:layout_height="40dp"
+           android:layout_weight=".5"
+            android:background="@drawable/button_animation_white"
+            android:text="Refresh"
+            android:textSize="@dimen/songs_count"
+            android:textColor="#000"
+            android:layout_marginRight="20dp"
+
+
+
+            />
+
+
+      </LinearLayout>
+
+
+
+
+
+
+        <TextView
+            android:id="@+id/rewards"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Rewards : 0 points"
+            android:layout_below="@id/balance"
+
+            android:paddingRight="@dimen/album_title_padding"
+            android:textSize="@dimen/songs_count"
+            android:textColor="#000"
+            android:paddingLeft="@dimen/text_padding"
+            android:paddingBottom="@dimen/text_padding"
+
+            android:textAppearance="@style/TextAppearance.AppCompat.Title"
+            />
+
+
+        <Button
+            android:id="@+id/redeem"
+            android:layout_width="130dp"
+            android:layout_height="40dp"
+            android:paddingRight="@dimen/album_title_padding"
+            android:textSize="@dimen/songs_count"
+            android:textColor="#000"
+            android:background="@drawable/button_animation_white"
+            android:text="Redeem"
+            android:layout_gravity="left"
+            android:layout_marginTop="30dp"
+            android:layout_marginBottom="30dp"
+            android:layout_marginRight="30dp"
+            android:layout_marginLeft="10dp"/>
+
+
+      </LinearLayout>
+
+    </android.support.v7.widget.CardView>
+
+
+    <android.support.v7.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/card_margin">
+      <LinearLayout
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/card"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+
+            android:paddingLeft="@dimen/album_title_padding"
+            android:paddingRight="@dimen/album_title_padding"
+            android:paddingTop="@dimen/album_title_padding"
+            android:layout_alignParentTop="true"
+            android:textColor="#000"
+            android:text="Card Detail"
+            android:textAppearance="@style/TextAppearance.AppCompat.Title" />
+        <LinearLayout
+
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+
+
+            >
+
+          <TextView
+              android:id="@+id/carddetail"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+
+
+              android:textColor="#000"
+              android:layout_gravity="left"
+              android:layout_weight=".5"
+              android:layout_marginTop="30dp"
+              android:layout_marginBottom="30dp"
+              android:layout_marginLeft="10dp"
+              />
+
+          <Button
+              android:id="@+id/cardupdate"
+              android:layout_width="250dp"
+              android:layout_height="40dp"
+              android:layout_weight=".5"
+              android:background="@drawable/button_animation_white"
+              android:text="Update"
+              android:textSize="@dimen/songs_count"
+              android:textColor="#000"
+              android:layout_marginRight="20dp"
+
+
+
+              />
+
+
+        </LinearLayout>
+
+
+
+
+
+
+
+
+
+
+
+      </LinearLayout>
+
+    </android.support.v7.widget.CardView>
+
+
+    <android.support.v7.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="500dp"
+        android:layout_margin="@dimen/card_margin">
+
+      <LinearLayout
+          android:layout_width="match_parent"
+          android:layout_height="match_parent"
+          android:orientation="vertical">
+
+          <com.github.mikephil.charting.charts.BarChart
+              android:id="@+id/chart"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent" />
+
+      </LinearLayout>
+
+    </android.support.v7.widget.CardView>
+
+
+    <android.support.v7.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/card_margin">
+
+      <LinearLayout
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:orientation="vertical">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+          <TextView
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:padding="@dimen/text_padding"
+              android:text="Contact"
+              android:textAppearance="@style/TextAppearance.AppCompat.Title" />
+
+
+
+        </RelativeLayout>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/text_padding"
+            android:lines="2"
+            android:text="+91 8768792833" />
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/text_padding"
+
+            android:lines="2"
+            android:text="giri492neeraj@gmail.com" />
+      </LinearLayout>
+
+    </android.support.v7.widget.CardView>
+  </LinearLayout>
+
+</ScrollView>
