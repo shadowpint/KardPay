@@ -23,6 +23,7 @@ It includes all the features stated in problem statement and some additional fea
  Features Included for the claim of browny points as mentioned in the problem statement.  
  The project consists of both a web app and a mobile app. Web App is just an api based APP written in django and Hosted on Bluemix and Mobile app consumes API services like authentication,   
  fetching of data, handling every other feature of the application.  
+ - 60: Category -- Application developed on the 1st problem statement  
  - 10: Accessing SD Card contents - 10: Camera  -- used for uploading profile photo in profile section  
  - 10: Navigation Drawer  -- Can be accessed by tapping hamburger icon in the upper left corner of the screen  
  - 15: Social login (Custom login)  -- custom athentication system made using API based Oauth2 token( API developed in django and hosted on bluemix) 
@@ -30,12 +31,12 @@ It includes all the features stated in problem statement and some additional fea
                                     using API calls from internet including(authentication, registration, fetching data like transaction details  
                                     offers , adding credit card, profile updating, profile pic uploading from api  
                                     
- --WebApp  -- Deveoped in Django a database backed REST API service for the mobile app  
- --IBM Bluemix  hosted on IBM bluemix with url http://kradapi-semimountainous-bachelorhood.mybluemix.net/admin/  
+  --WebApp  -- Deveoped in Django a database backed REST API service for the mobile app  
+  - 40:--IBM Bluemix  hosted on IBM bluemix with url http://kradapi-semimountainous-bachelorhood.mybluemix.net/admin/  
  for guset user, to test backend of mobile application, Please use following credentials  
 # username - guest  
 # password - guest  
---IBM Watson -- used IBM watson visual recognition service for detection of face while uploading the profile pic, its avoids and restricts user from uploading random pic, only a pic with face in it can be uploaded.  
+ - 20 :--IBM Watson -- used IBM watson visual recognition service for detection of face while uploading the profile pic, its avoids and restricts user from uploading random pic, only a pic with face in it can be uploaded.  
 To test this feature one can go to profile section of the app and click on photo on the upper left corner of the phone screen.  
 Click on the area of pic to open camera and upload your photo, the app relaunches camera if you click any other photo, which is not having any  
 face in it, demo is shown at this url https://youtu.be/1RbhwEQB7DY
