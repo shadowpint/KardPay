@@ -243,18 +243,20 @@
         </RelativeLayout>
 
         <TextView
+            android:id="@+id/contact"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:padding="@dimen/text_padding"
             android:lines="2"
-            android:text="+91 8768792833" />
+            />
         <TextView
+            android:id="@+id/mail"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:padding="@dimen/text_padding"
 
             android:lines="2"
-            android:text="giri492neeraj@gmail.com" />
+             />
       </LinearLayout>
 
     </android.support.v7.widget.CardView>

@@ -1,5 +1,6 @@
 package tech.codefest.kradpay;
 
+import android.app.DatePickerDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
@@ -28,37 +29,54 @@ import android.util.TypedValue;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.DatePicker;
+import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import tech.codefest.kradpay.model.Offer;
+import tech.codefest.kradpay.tasks.AsyncResponse;
+import tech.codefest.kradpay.tasks.CartSave;
+import tech.codefest.kradpay.tasks.DoTransaction;
+import tech.codefest.kradpay.tasks.LastTransaction;
 import tech.codefest.kradpay.uploadimage.ImageActivity;
 
+import com.afollestad.materialdialogs.MaterialDialog;
+import com.google.gson.Gson;
 import com.heinrichreimersoftware.materialdrawer.DrawerView;
 import com.heinrichreimersoftware.materialdrawer.structure.DrawerItem;
 import com.heinrichreimersoftware.materialdrawer.structure.DrawerProfile;
 import com.heinrichreimersoftware.materialdrawer.theme.DrawerTheme;
+import com.squareup.okhttp.MediaType;
 import com.squareup.okhttp.OkHttpClient;
 import com.squareup.okhttp.Request;
+import com.squareup.okhttp.RequestBody;
 import com.squareup.okhttp.Response;
+import com.weiwangcn.betterspinner.library.material.MaterialBetterSpinner;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.util.Calendar;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 /**
  * Created by dominicneeraj on 08/08/17.
  */
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements AsyncResponse {
     private static final String LAST_TRANSACTION_URL ="http://kradapi-semimountainous-bachelorhood.mybluemix.net/krad/api/lasttransaction/";
     public boolean isFStart;
     Context mcontext;
-
+    DoTransaction doTransaction =new DoTransaction (MainActivity.this);
+    LastTransaction lastTransaction =new LastTransaction (MainActivity.this);
+    CartSave cartSave =new CartSave(MainActivity.this);
     private String token;
 
 
@@ -85,21 +103,82 @@ private TextView last_transaction;
     private ShadowTransformer mCardShadowTransformer;
 
     static final String MAIN_URL = "http://kradapi-semimountainous-bachelorhood.mybluemix.net/krad/api/offer/";
+    static final String TRANSACTION_URL = "http://kradapi-semimountainous-bachelorhood.mybluemix.net/krad/api/transaction/";
     private boolean mShowingFragments = false;
     private List<Offer> newsList;
     private Response response;
     private String transaction;
     private String transaction_item;
     private String transaction_amount;
+    private Button pay_btn;
+    private Button transfer_btn;
+    boolean wrapInScrollView = true;
+    private MaterialDialog dialog;
+    String[] SPINNER_DATA = {"Andhra Bank","AXIS","Andhra Bank","Bank of Baroda","Bank of India","Bank of Maharashtra","Canara Bank","Citi Bank","Andhra Bank","Corporation Bank","Deutsche Bank","HDFC","ICICI","IndusInd Bank","Punjab National Bank","SBI"};
+
+
+
+    private String contact_text;
+    private String email_text;
+    private String name_text;
+    private String dob_text;
+    private String bank_text;
+    private String card_text;
+    private String gender_text;
+    private MaterialBetterSpinner materialBetterSpinner;
+
+
+
+
+    private EditText firstname_edit;
+    private EditText lastname_edit;
+    private EditText dob_edit;
+    private EditText contact_edit;
+
+
+    private String first_name;
+    private String last_name;
+    private int mYear;
+    private int mMonth;
+    private int mDay;
+    private Button submit_btn;
+    private String jsrating;
+    private EditText payee_edit;
+    private EditText payee_contact_edit;
+    private EditText account_no_edit;
+    private EditText ifsc_edit;
+    private EditText transfer_amount_edit;
+    private EditText transfer_reason_edit;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        DrawerLayout drawerLayout = (DrawerLayout) findViewById(R.id.drawerLayout);
+        final DrawerLayout drawerLayout = (DrawerLayout) findViewById(R.id.drawerLayout);
         drawer = (DrawerView) findViewById(R.id.drawer);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
 
         setSupportActionBar(toolbar);
+        doTransaction.delegate = this;
+       lastTransaction.delegate = this;
+        mp = new HashMap<String, String>();
+         pay_btn = (Button) findViewById(R.id.pay_button);
+        pay_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            payDialog();
+
+            }
+        });
+        transfer_btn = (Button) findViewById(R.id.transfer_button);
+        transfer_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+               transferDialog();
+
+            }
+        });
         drawerToggle = new ActionBarDrawerToggle(
                 this,
                 drawerLayout,
@@ -243,20 +322,18 @@ drawer.setBackgroundColor(ContextCompat.getColor(this, R.color.color_primary_dar
 
                         break;
                     case 4:
-
-                        Intent e = new Intent(MainActivity.this, WalletActivity.class);
-                        startActivity(e);
+                        drawerLayout.closeDrawer(drawer);
+                        transferDialog();
 
                         break;
                     case 5:
-
-                        Intent f = new Intent(MainActivity.this, WalletActivity.class);
-                        startActivity(f);
+                        drawerLayout.closeDrawer(drawer);
+                        payDialog();
 
                         break;
                     case 6:
 
-                        Intent g = new Intent(MainActivity.this, WalletActivity.class);
+                        Intent g = new Intent(MainActivity.this, DeveloperActivity.class);
                         startActivity(g);
 
                         break;
@@ -331,13 +408,11 @@ drawer.setBackgroundColor(ContextCompat.getColor(this, R.color.color_primary_dar
 
         token = prefs.getString("oauth2.accesstoken", "");
 
-        mCardAdapter = new OfferPagerAdapter(MainActivity.this);
-        new GetDataTask().execute();
+        mCardAdapter = new OfferPagerAdapter(MainActivity.this,token);
 
 
 
-        mCardShadowTransformer = new ShadowTransformer(mViewPager, mCardAdapter);
-        mViewPager.setAdapter(mCardAdapter);
+
 
 
 
@@ -346,7 +421,7 @@ drawer.setBackgroundColor(ContextCompat.getColor(this, R.color.color_primary_dar
         Log.e(TAG, "True");
 
         new GetDataTask().execute();
-new GetMyNewsTask().execute();
+        lastTransaction.execute(token);
 
         BottomNavigationView bottomNavigationView = (BottomNavigationView)
                 findViewById(R.id.navigation);
@@ -359,7 +434,7 @@ new GetMyNewsTask().execute();
                         switch (item.getItemId()) {
 
                             case R.id.action_item1:
-                                Intent j = new Intent(MainActivity.this, ProfileActivity.class);
+                                Intent j = new Intent(MainActivity.this, TransactionActivity.class);
                                 startActivity(j);
 
 
@@ -367,7 +442,7 @@ new GetMyNewsTask().execute();
 
                             case R.id.action_item2:
 
-                                Intent in = new Intent(MainActivity.this, ImageActivity.class);
+                                Intent in = new Intent(MainActivity.this, ProfileActivity.class);
                                 startActivity(in);
 
                                 break;
@@ -398,80 +473,186 @@ new GetMyNewsTask().execute();
         super.onPostCreate(savedInstanceState);
         drawerToggle.syncState();
     }
-    class GetMyNewsTask extends AsyncTask<Void, Void, String> {
+
+    private void payDialog() {
+
+
+        MaterialDialog.Builder builder = new MaterialDialog.Builder(this)
+
+
+                .customView(R.layout.profile_view, wrapInScrollView);
+
+
+        dialog = builder.build();
+
+
+        dialog.show();
+        View view = dialog.getCustomView();
+
+        materialBetterSpinner = (MaterialBetterSpinner) view.findViewById(R.id.gender_data);
+
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(MainActivity.this, android.R.layout.simple_dropdown_item_1line, SPINNER_DATA);
+
+        materialBetterSpinner.setAdapter(adapter);
+        materialBetterSpinner.setText(gender_text);
+
+
+        firstname_edit = (EditText) view.findViewById(R.id.first_name);
+        lastname_edit = (EditText) view.findViewById(R.id.last_name);
+        contact_edit = (EditText) view.findViewById(R.id.contact_data);
+        dob_edit = (EditText) view.findViewById(R.id.dob_data);
+        contact_edit.setText(card_text);
+
+
+        firstname_edit.setText(first_name);
+        lastname_edit.setText(last_name);
 
 
 
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-            /**
-             * Progress Dialog for User Interaction
-             */
 
-        }
+        dob_edit.setText(dob_text);
 
-        @Nullable
-        @Override
-        protected String doInBackground(Void... params) {
+        dob_edit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
 
-            try {
-                OkHttpClient client = new OkHttpClient();
+                final Calendar c = Calendar.getInstance();
+                mYear = c.get(Calendar.YEAR);
+                mMonth = c.get(Calendar.MONTH);
+                mDay = c.get(Calendar.DAY_OF_MONTH);
 
 
-                Request request = new Request.Builder()
-                        .header("Content-Type", "application/json")
-                        .header("Authorization", "Bearer " + token)
-                        .url(LAST_TRANSACTION_URL)
-                        .build();
-                response = client.newCall(request).execute();
+                DatePickerDialog datePickerDialog = new DatePickerDialog(MainActivity.this,
+                        new DatePickerDialog.OnDateSetListener() {
 
-                return response.body().string();
-            } catch (@NonNull IOException e) {
-                Log.e(TAG, "" + e.getLocalizedMessage());
+                            @Override
+                            public void onDateSet(DatePicker view, int year,
+                                                  int monthOfYear, int dayOfMonth) {
+
+                                dob_edit.setText(year + "-" + (monthOfYear + 1) + "-" + dayOfMonth);
+
+                            }
+                        }, mYear, mMonth, mDay);
+                datePickerDialog.show();
+
             }
+        });
+        submit_btn = (Button) view.findViewById(R.id.submit);
+        submit_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                dialog.dismiss();
+                mp.put("firstname", firstname_edit.getText().toString());
+                mp.put("lastname", lastname_edit.getText().toString());
+                mp.put("gender", materialBetterSpinner.getText().toString());
+                mp.put("dob", dob_edit.getText().toString());
+                mp.put("contact", contact_edit.getText().toString());
+
+                Gson gson = new Gson();
+                jsrating = gson.toJson(mp);
+                Log.e(TAG, jsrating);
 
 
-            return null;
+            }
+        });
+    }
+    private void transferDialog() {
+
+
+        MaterialDialog.Builder builder = new MaterialDialog.Builder(this)
+
+
+                .customView(R.layout.transfer_view, wrapInScrollView);
+
+
+        dialog = builder.build();
+
+
+        dialog.show();
+        View view = dialog.getCustomView();
+
+        materialBetterSpinner = (MaterialBetterSpinner) view.findViewById(R.id.bank);
+
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(MainActivity.this, android.R.layout.simple_dropdown_item_1line, SPINNER_DATA);
+
+        materialBetterSpinner.setAdapter(adapter);
+
+        payee_edit = (EditText) view.findViewById(R.id.payee_name);
+        payee_contact_edit = (EditText) view.findViewById(R.id.payee_contact);
+        account_no_edit = (EditText) view.findViewById(R.id.account_no);
+        ifsc_edit = (EditText) view.findViewById(R.id.ifsc);
+
+        transfer_amount_edit = (EditText) view.findViewById(R.id.transfer_amount);
+        transfer_reason_edit = (EditText) view.findViewById(R.id.transfer_reason);
+
+
+
+        submit_btn = (Button) view.findViewById(R.id.submit);
+        submit_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                dialog.dismiss();
+                mp.put("amount", transfer_amount_edit.getText().toString());
+                mp.put("item", "Transfer to "+payee_edit.getText().toString()+" with Account Number "+account_no_edit.getText().toString()+" of amount "+ transfer_amount_edit.getText().toString()+" for "+transfer_reason_edit.getText().toString());
+                mp.put("reward", "1");
+
+
+                Gson gson = new Gson();
+                jsrating = gson.toJson(mp);
+                Log.e(TAG, jsrating);
+                dialog.dismiss();
+                doTransaction.execute(jsrating,token);
+
+
+            }
+        });
+    }
+
+    @Override
+    public void transactionFinish(String Response){
+        Toast.makeText(MainActivity.this, "Successfully Transfered", Toast.LENGTH_SHORT).show();
+    }
+    @Override
+    public void lastTransactionResult(String Response){
+
+        Log.e(TAG, "Response lastTransaction"+Response);
+        JSONObject jsonobject = null;
+        try {
+            jsonobject = new JSONObject(Response);
+            Log.e(TAG, String.valueOf(jsonobject));
+        } catch (JSONException e) {
+            last_transaction.setText("You Haven't madeAny Transaction \n No details Found");
         }
 
-        @Override
-        protected void onPostExecute(String Response) {
-            super.onPostExecute(Response);
 
 
-
-            Log.e(TAG, "Response");
-            JSONObject jsonobject = null;
-            try {
-                jsonobject = new JSONObject(Response);
-                Log.e(TAG, String.valueOf(jsonobject));
-            } catch (JSONException e) {
+        try {
+            if(jsonobject==null){
                 last_transaction.setText("You Haven't madeAny Transaction \n No details Found");
             }
+            else{
+                transaction_item=jsonobject.getString("item");
+                transaction_amount=jsonobject.getString("amount");
+                last_transaction.setText("Last Transaction \n"+transaction_item);
+            }
 
-
-
-                try {
-                   if(jsonobject==null){
-                       last_transaction.setText("You Haven't madeAny Transaction \n No details Found");
-                   }
-                    else{
-                    transaction_item=jsonobject.getString("item");
-                    transaction_amount=jsonobject.getString("amount");
-                       last_transaction.setText("Last Tranasaction \n"+transaction_item+"of amount "+transaction_amount);
-                    }
-
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-
-
-
-
-
+        } catch (JSONException e) {
+            e.printStackTrace();
         }
+
+
     }
+    @Override
+    public void cartsaveResult(String Response){
+
+        Log.e(TAG, "Response");
+        Toast.makeText(MainActivity.this, "Item Saved", Toast.LENGTH_SHORT).show();
+
+
+    }
+
     class GetDataTask extends AsyncTask<Void, Void, String> {
 
         ProgressDialog dialog;
@@ -539,7 +720,7 @@ new GetMyNewsTask().execute();
 
                     try {
                         json = jsonarray.getJSONObject(i);
-                        mCardAdapter.addCardItem(new Offer(json.getString("id"),json.getString("image"), json.getString("title"),json.getString("detail"), json.getString("redeem"),json.getString("percent")));
+                        mCardAdapter.addCardItem(new Offer(json.getString("id"),json.getString("image"), json.getString("title"),json.getString("price"),json.getString("brand"),json.getString("detail"), json.getString("redeem"),json.getString("percent")));
 
 
                     } catch (JSONException e) {
@@ -554,6 +735,11 @@ new GetMyNewsTask().execute();
             }
 
             mCardAdapter.notifyDataSetChanged();
+            mViewPager.setAdapter(mCardAdapter);
+
+
+
+            mCardShadowTransformer = new ShadowTransformer(mViewPager, mCardAdapter);
             mViewPager.setPageTransformer(false, mCardShadowTransformer);
             mCardShadowTransformer.enableScaling(true);
             mViewPager.setOffscreenPageLimit(3);
@@ -565,38 +751,7 @@ new GetMyNewsTask().execute();
     /**
      * RecyclerView item decoration - give equal margin around grid item
      */
-    public class GridSpacingItemDecoration extends RecyclerView.ItemDecoration {
 
-        private int spanCount;
-        private int spacing;
-        private boolean includeEdge;
-
-        public GridSpacingItemDecoration(int spanCount, int spacing, boolean includeEdge) {
-            this.spanCount = spanCount;
-            this.spacing = spacing;
-            this.includeEdge = includeEdge;
-        }
-
-        @Override
-        public void getItemOffsets(Rect outRect, View view, RecyclerView parent, RecyclerView.State state) {
-            int position = parent.getChildAdapterPosition(view); // item position
-            int column = position % spanCount; // item column
-
-//            if (includeEdge) {
-//                outRect.left = spacing - column * spacing / spanCount; // spacing - column * ((1f / spanCount) * spacing)
-//                outRect.right = (column ) * spacing / spanCount; // (column + 1) * ((1f / spanCount) * spacing)
-//
-//                if (position < spanCount) { // top edge
-//                    outRect.top = spacing;
-//                }
-//                outRect.bottom = spacing; // item bottom
-//            } else {
-            outRect.left = column * spacing / spanCount; // column * ((1f / spanCount) * spacing)
-            outRect.right = spacing - (column) * spacing / spanCount; // spacing - (column + 1) * ((1f /    spanCount) * spacing)
-
-//            }
-        }
-    }
 
     /**
      * Converting dp to pixel

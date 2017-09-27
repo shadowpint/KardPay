@@ -4,7 +4,6 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -14,8 +13,6 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.WindowManager;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
@@ -24,9 +21,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.afollestad.materialdialogs.MaterialDialog;
-import com.braintreepayments.cardform.OnCardFormSubmitListener;
 import com.braintreepayments.cardform.utils.CardType;
-import com.braintreepayments.cardform.view.CardEditText;
 import com.braintreepayments.cardform.view.CardForm;
 import com.braintreepayments.cardform.view.SupportedCardTypesView;
 import com.github.mikephil.charting.charts.BarChart;
@@ -57,12 +52,15 @@ public class WalletActivity extends AppCompatActivity {
             CardType.AMEX, CardType.DINERS_CLUB, CardType.JCB, CardType.MAESTRO, CardType.UNIONPAY };
 
     String[] SPINNER_DATA = {"VISA","MASTERCARD","AMEX","DINERS_CLUB","JCB","MAESTRO","UNIONPAY"};
+    String[] MONTH_DATA = {"01","02","03","04","05","06","07","08","09","10","11","12"};
+    String[] YEAR_DATA = {"2017","2018","2019","2020","2021","2022","2023","2024","2025","2026","2027","2028","2029","2030","2031","2032","2033","2034","2035"};
     private String token;
     private SupportedCardTypesView mSupportedCardTypesView;
     static final String WALLET_URL = "http://kradapi-semimountainous-bachelorhood.mybluemix.net/krad/api/wallet/";
     static final String TRANSACTION_URL = "http://kradapi-semimountainous-bachelorhood.mybluemix.net/krad/api/transaction/";
     static final String CARD_URL = "http://kradapi-semimountainous-bachelorhood.mybluemix.net/krad/api/card/";
     static final String REDEEM_URL = "http://kradapi-semimountainous-bachelorhood.mybluemix.net/krad/api/redeem/";
+    static final String PROFILE_URL = "http://kradapi-semimountainous-bachelorhood.mybluemix.net/krad/api/profile/";
     protected CardForm mCardForm;
   private TextView reward_text;
     private TextView amount_text;
@@ -77,6 +75,8 @@ private ImageView github;
     private String reward;
     private String amount;
     MaterialBetterSpinner materialBetterSpinner ;
+    MaterialBetterSpinner monthSpinner ;
+    MaterialBetterSpinner yearSpinner ;
     private String selected;
     private EditText card_number;
     private EditText expiry_date;
@@ -89,12 +89,12 @@ private ImageView github;
     private Map<String, String> mp;
     private String jsrating;
     private String  cardnumber;
-    private String  expiry_month;
-    private String  expiry_year;
+    private String month;
+    private String  year;
     private String  date;
     private String  cvv_data;
     private String  card_type;
-    private TextView carddetail;
+    private TextView carddetail,contact,mail;
     @Override protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.wallet_main);
@@ -109,6 +109,7 @@ private ImageView github;
         mp = new HashMap<String, String>();
         new GetBalanceTask().execute();
         new GetCardTask().execute();
+        new GetProfileTask().execute();
         refresh_btn = (Button)findViewById(R.id.refresh);
         refresh_btn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -162,6 +163,8 @@ private ImageView github;
         reward_text = (TextView) findViewById(R.id.rewards);
         amount_text = (TextView) findViewById(R.id.balance);
         carddetail = (TextView) findViewById(R.id.carddetail);
+        contact = (TextView) findViewById(R.id.contact);
+        mail = (TextView) findViewById(R.id.mail);
 
     //in the toolbar
 
@@ -354,7 +357,7 @@ private ImageView github;
 
 
 
-            Log.e(TAG, "Response");
+            Log.e(TAG, "Response"+Response);
             JSONObject jsonobject = null;
             try {
                 jsonobject = new JSONObject(Response);
@@ -369,11 +372,11 @@ private ImageView github;
 
                     if(jsonobject!=null){
                     cardnumber = jsonobject.getString("cardnumber");
-                    expiry_month= jsonobject.getString("expiry_month");
-                    expiry_year = jsonobject.getString("expiry_year");
+                    month= jsonobject.getString("expiry_month");
+                    year = jsonobject.getString("expiry_year");
                     cvv_data = jsonobject.getString("cvv");
                     card_type = jsonobject.getString("card_type");
-                    date=expiry_month+"/"+ expiry_year;
+
 
 
                         carddetail.setText("xxxx-"+cardnumber.substring(cardnumber.length()-4)+" "+card_type);
@@ -381,13 +384,101 @@ private ImageView github;
                     }
                 else{
                         cardnumber = "";
-                        expiry_month= "";
-                        expiry_year = "";
+                        month= "";
+                        year = "";
                         cvv_data = "";
                         card_type = "";
-                        date=expiry_month+"/"+ expiry_year;
 
             }
+
+
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+
+
+
+
+
+        }
+    }
+    class GetProfileTask extends AsyncTask<Void, Void, String> {
+
+
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            /**
+             * Progress Dialog for User Interaction
+             */
+
+        }
+
+        @Nullable
+        @Override
+        protected String doInBackground(Void... params) {
+
+
+
+            try {
+                OkHttpClient client = new OkHttpClient();
+                MediaType JSON
+                        = MediaType.parse("application/json; charset=utf-8");
+
+
+
+                Request request = new Request.Builder()
+                        .header("Content-Type", "application/json")
+                        .header("Authorization", "Bearer " + token)
+                        .url(PROFILE_URL)
+
+                        .build();
+                response = client.newCall(request).execute();
+
+                return response.body().string();
+            } catch (@NonNull IOException e) {
+                Log.e(TAG, "" + e.getLocalizedMessage());
+            }
+
+
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(String Response) {
+            super.onPostExecute(Response);
+
+
+
+            Log.e(TAG, "Response");
+            JSONObject jsonobject = null;
+            try {
+                jsonobject = new JSONObject(Response);
+                Log.e(TAG, String.valueOf(jsonobject));
+            } catch (JSONException e) {
+
+            }
+
+
+
+            try {
+
+                if(jsonobject!=null){
+
+
+
+                    contact.setText("+91 "+jsonobject.getString("contact"));
+
+                    mail.setText(jsonobject.getJSONObject("user").getString("email"));
+
+                }
+                else{
+                    contact.setText("");
+
+                    mail.setText("");
+
+                }
 
 
             } catch (JSONException e) {
@@ -406,7 +497,7 @@ private ImageView github;
 
 
 
-                .customView(R.layout.custom_view, wrapInScrollView);
+                .customView(R.layout.credit_card_view, wrapInScrollView);
 
 
 
@@ -424,12 +515,24 @@ private ImageView github;
         materialBetterSpinner.setText(card_type);
 
 
+        monthSpinner = (MaterialBetterSpinner)view.findViewById(R.id.month);
+        ArrayAdapter<String> monthAdapter = new ArrayAdapter<String>(WalletActivity.this, android.R.layout.simple_dropdown_item_1line, MONTH_DATA);
+
+        monthSpinner.setAdapter(monthAdapter);
+        monthSpinner.setText(month);
+
+        yearSpinner = (MaterialBetterSpinner)view.findViewById(R.id.year);
+        ArrayAdapter<String> yearAdpater = new ArrayAdapter<String>(WalletActivity.this, android.R.layout.simple_dropdown_item_1line, YEAR_DATA);
+        yearSpinner.setAdapter(yearAdpater);
+        yearSpinner.setText(year);
+
+
         card_number = (EditText)view.findViewById(R.id.card_number);
-        expiry_date = (EditText)view.findViewById(R.id.exp_date);
+
         cvv = (EditText)view.findViewById(R.id.cvv);
 
 card_number.setText(cardnumber);
-        expiry_date.setText(date);
+
 
         cvv.setText(cvv_data);
 
@@ -441,8 +544,8 @@ card_number.setText(cardnumber);
 
                 dialog.dismiss();
                 mp.put("cardnumber",card_number.getText().toString());
-                mp.put("expiry_month",expiry_date.getText().toString().substring(0,2));
-                mp.put("expiry_year",expiry_date.getText().toString().substring(3,7));
+                mp.put("expiry_month",monthSpinner.getText().toString());
+                mp.put("expiry_year",yearSpinner.getText().toString());
                 mp.put("cvv",cvv.getText().toString());
                 mp.put("card_type",materialBetterSpinner.getText().toString());
 

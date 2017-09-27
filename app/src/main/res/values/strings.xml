@@ -146,4 +146,6 @@
     <string name="label_download">Download File</string>
     <string name="log_out">Log out</string>
     <string name="success">Success</string>
+
+    <string name="hint"><font size="20">CVV</font></string>
 </resources>

@@ -60,6 +60,8 @@ dependencies {
     compile 'com.github.PhilJay:MPAndroidChart:v2.2.4'
     compile 'com.weiwangcn.betterspinner:library-material:1.1.0'
     compile 'pub.devrel:easypermissions:0.1.9'
+    compile 'com.ibm.watson.developer_cloud:java-sdk:3.9.1'
+
 
 }
 apply plugin: 'com.google.gms.google-services'

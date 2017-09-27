@@ -26,4 +26,8 @@ public class OauthConstant {
     public static final int HTTP_OK = 200;
     public static final int HTTP_FORBIDDEN = 403;
     public static final int HTTP_UNAUTHORIZED = 401;
+
+
+    public static final String LAST_TRANSACTION_URL = "http://kradapi-semimountainous-bachelorhood.mybluemix.net/krad/api/lasttransaction/";
+    public static final String CART_URL = "http://kradapi-semimountainous-bachelorhood.mybluemix.net/krad/api/shopcart/";
 }

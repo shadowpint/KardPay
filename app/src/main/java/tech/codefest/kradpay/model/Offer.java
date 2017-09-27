@@ -7,17 +7,22 @@ public class Offer {
     private String id;
     private String image;
     private String title;
+    private String price;
+    private String brand;
     private String detail;
     private String redeem;
     private String percent;
 
 
 
-    public Offer(String id, String image, String title, String detail, String redeem, String percent) {
+    public Offer(String id, String image, String title, String price, String brand, String detail, String redeem, String percent) {
         this.id = id;
 
         this.image = image;
         this.title=title;
+        this.price=price;
+        this.brand= brand;
+
         this.detail=detail;
         this.redeem= redeem;
         this.percent=percent;
@@ -46,6 +51,24 @@ public class Offer {
     public void setTitle(String title) {
         this.title = title;
     }
+
+
+    public String getPrice() {
+        return price;
+    }
+    public void setPrice(String price) {
+        this.price = price;
+    }
+
+    public String getBrand() {
+        return brand;
+    }
+    public void setBrand(String brand) {
+        this.brand= brand;
+    }
+
+
+
     public String getDetail() {
         return detail;
     }

@@ -62,6 +62,10 @@
         <activity android:theme="@style/AppThemeMain"
             android:name=".OfferActivity"
             android:label="Latest Offers"/>
+        <activity
+            android:name=".DeveloperActivity"
+            android:theme="@style/AppTheme.NoActionBar"
+            android:label="Developer Info" />
         <service
             android:name=".uploadimage.MyDownloadService"
             android:exported="false" />
@@ -72,7 +76,7 @@
         -->
         <provider
             android:name="android.support.v4.content.FileProvider"
-            android:authorities="com.google.firebase.quickstart.firebasestorage.fileprovider"
+            android:authorities="tech.codefest.kradpay.fileprovider"
             android:exported="false"
             android:grantUriPermissions="true">
             <meta-data

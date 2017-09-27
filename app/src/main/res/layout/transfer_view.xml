@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:fitsSystemWindows="true">
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingTop="8dp"
+        android:paddingLeft="24dp"
+        android:paddingRight="24dp">
+
+        <TextView
+            android:id="@+id/title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/customEntry"
+            android:gravity="center"
+
+            android:layout_marginBottom="10dp"
+            android:layout_marginLeft="18dp"
+            android:textColor="#000000"
+            android:text="Transfer Money"
+            />
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+
+            android:orientation="horizontal">
+
+            <!-- Password Label -->
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="130dp"
+                android:layout_height="wrap_content"
+
+                android:layout_gravity="left"
+                android:layout_weight=".5"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="8dp"
+
+                android:layout_marginRight="30dp"
+                >
+                <EditText android:id="@+id/payee_name"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+
+                    android:inputType="text"
+                    android:hint="Payee Name"/>
+            </android.support.design.widget.TextInputLayout>
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="130dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="right"
+                android:layout_marginTop="8dp"
+                android:layout_weight=".5"
+                android:layout_marginBottom="8dp"
+                android:layout_marginLeft="10dp"
+                >
+                <EditText android:id="@+id/payee_contact"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+
+                    android:inputType="text"
+                    android:hint="Contact"/>
+            </android.support.design.widget.TextInputLayout>
+        </LinearLayout>
+        <!-- Email Label -->
+        <com.weiwangcn.betterspinner.library.material.MaterialBetterSpinner
+            xmlns:app="http://schemas.android.com/tools"
+            android:id="@+id/bank"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:hint="Bank Name"
+            android:padding="5dp"
+            app:met_floatingLabel="normal"
+            android:textColorHint="#CFD8DC"
+            android:gravity="center"
+            />
+        <android.support.design.widget.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="8dp"
+        >
+        <EditText android:id="@+id/account_no"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+
+            android:inputType="text"
+            android:hint="Account Number" />
+
+    </android.support.design.widget.TextInputLayout>
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp"
+            >
+            <EditText android:id="@+id/ifsc"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+
+                android:inputType="text"
+                android:hint="IFSC Code" />
+        </android.support.design.widget.TextInputLayout>
+
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp"
+            >
+            <EditText android:id="@+id/transfer_amount"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+
+                android:inputType="text"
+                android:hint="Amount" />
+        </android.support.design.widget.TextInputLayout>
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp"
+            >
+            <EditText android:id="@+id/transfer_reason"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+
+                android:inputType="text"
+                android:hint="Transfer For" />
+        </android.support.design.widget.TextInputLayout>
+        <android.support.v7.widget.AppCompatButton
+            android:id="@+id/submit"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:layout_marginBottom="24dp"
+            android:padding="12dp"
+            android:text="Transfer"
+            android:background="@drawable/button_bg_transparent_white"/>
+
+
+    </LinearLayout>
+</ScrollView>

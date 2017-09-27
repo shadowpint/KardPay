@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:fitsSystemWindows="true">
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingTop="8dp"
+        android:paddingLeft="24dp"
+        android:paddingRight="24dp">
+
+        <TextView
+            android:id="@+id/title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/customEntry"
+            android:gravity="center"
+
+            android:layout_marginBottom="10dp"
+            android:layout_marginLeft="18dp"
+            android:textColor="#000000"
+            android:text="Buy Now"
+            />
+
+        <TextView
+            android:id="@+id/item_buy"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+
+            android:gravity="center"
+
+            android:layout_marginBottom="10dp"
+            android:layout_marginLeft="18dp"
+            android:textColor="#000000"
+            android:text="item name"
+            />
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+
+            android:orientation="horizontal">
+
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="8dp"
+                android:layout_weight=".33"
+                android:padding="5dp"
+                >
+                <EditText android:id="@+id/quantity"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+
+                    android:inputType="text"
+                    android:hint="Quantity" />
+
+            </android.support.design.widget.TextInputLayout>
+
+            <Button
+                android:id="@+id/add"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:layout_marginTop="24dp"
+                android:layout_marginBottom="24dp"
+                android:padding="12dp"
+                android:text="+"
+                android:background="@drawable/button_bg_transparent_white"/>
+
+            <Button
+                android:id="@+id/subtract"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:layout_marginTop="24dp"
+                android:layout_marginBottom="24dp"
+                android:padding="12dp"
+                android:text="-"
+                android:background="@drawable/button_bg_transparent_white"/>
+
+        </LinearLayout>
+        <!-- Email Label -->
+
+        <TextView
+            android:id="@+id/amount"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+
+            android:gravity="center"
+
+            android:layout_marginBottom="10dp"
+            android:layout_marginLeft="18dp"
+            android:textColor="#000000"
+            android:text="item name"/>
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+
+            android:orientation="horizontal">
+
+            <!-- Password Label -->
+            <Button
+                android:id="@+id/save"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="24dp"
+                android:layout_marginBottom="24dp"
+                android:layout_weight=".5"
+                android:gravity="left"
+                android:padding="12dp"
+                android:text="Save"
+                android:background="@drawable/button_bg_transparent_white"/>
+
+            <Button
+                android:id="@+id/submit"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="24dp"
+                android:layout_marginBottom="24dp"
+                android:padding="12dp"
+                android:text="Buy"
+                android:background="@drawable/button_bg_transparent_white"/>
+        </LinearLayout>
+
+
+
+    </LinearLayout>
+</ScrollView>
