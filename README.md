@@ -1,4 +1,4 @@
-# KardPay
+# KardPay  https://github.com/dominicneeraj/KardPay
 A interactive application for Credit card holders  
 An android Application that makes Credit card Maintainance Easy  
 The APP has been developed as a part of problem statement given by Codefest, IIT BHU.  
