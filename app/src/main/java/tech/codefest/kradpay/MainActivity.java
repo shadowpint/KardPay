@@ -74,8 +74,8 @@ public class MainActivity extends AppCompatActivity implements AsyncResponse {
     private static final String LAST_TRANSACTION_URL ="http://kradapi-semimountainous-bachelorhood.mybluemix.net/krad/api/lasttransaction/";
     public boolean isFStart;
     Context mcontext;
-    DoTransaction doTransaction =new DoTransaction (MainActivity.this);
-    LastTransaction lastTransaction =new LastTransaction (MainActivity.this);
+    DoTransaction doTransaction ;
+    LastTransaction lastTransaction;
     CartSave cartSave =new CartSave(MainActivity.this);
     private String token;
 
@@ -116,7 +116,7 @@ private TextView last_transaction;
     private MaterialDialog dialog;
     String[] SPINNER_DATA = {"Andhra Bank","AXIS","Andhra Bank","Bank of Baroda","Bank of India","Bank of Maharashtra","Canara Bank","Citi Bank","Andhra Bank","Corporation Bank","Deutsche Bank","HDFC","ICICI","IndusInd Bank","Punjab National Bank","SBI"};
 
-
+    String[] OPERATOR_DATA = {"Vodafone","Idea","Airtel","JIO","BSNL Mobile","Aircel","Telenor","Tata DoCoMo","MTS","MTNL"};
 
     private String contact_text;
     private String email_text;
@@ -149,6 +149,8 @@ private TextView last_transaction;
     private EditText ifsc_edit;
     private EditText transfer_amount_edit;
     private EditText transfer_reason_edit;
+    private EditText recharge_number_edit;
+    private EditText recharge_amount_edit;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -158,7 +160,10 @@ private TextView last_transaction;
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
 
         setSupportActionBar(toolbar);
-        doTransaction.delegate = this;
+
+
+         lastTransaction =new LastTransaction (MainActivity.this);
+
        lastTransaction.delegate = this;
         mp = new HashMap<String, String>();
          pay_btn = (Button) findViewById(R.id.pay_button);
@@ -166,7 +171,7 @@ private TextView last_transaction;
             @Override
             public void onClick(View v) {
 
-            payDialog();
+            rechargeDialog();
 
             }
         });
@@ -328,7 +333,7 @@ drawer.setBackgroundColor(ContextCompat.getColor(this, R.color.color_primary_dar
                         break;
                     case 5:
                         drawerLayout.closeDrawer(drawer);
-                        payDialog();
+                        rechargeDialog();
 
                         break;
                     case 6:
@@ -474,13 +479,14 @@ drawer.setBackgroundColor(ContextCompat.getColor(this, R.color.color_primary_dar
         drawerToggle.syncState();
     }
 
-    private void payDialog() {
+    private void rechargeDialog() {
 
-
+        doTransaction =new DoTransaction (MainActivity.this);
+        doTransaction.delegate = this;
         MaterialDialog.Builder builder = new MaterialDialog.Builder(this)
 
 
-                .customView(R.layout.profile_view, wrapInScrollView);
+                .customView(R.layout.recharge_view, wrapInScrollView);
 
 
         dialog = builder.build();
@@ -489,69 +495,38 @@ drawer.setBackgroundColor(ContextCompat.getColor(this, R.color.color_primary_dar
         dialog.show();
         View view = dialog.getCustomView();
 
-        materialBetterSpinner = (MaterialBetterSpinner) view.findViewById(R.id.gender_data);
+        materialBetterSpinner = (MaterialBetterSpinner) view.findViewById(R.id.operator);
 
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(MainActivity.this, android.R.layout.simple_dropdown_item_1line, SPINNER_DATA);
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(MainActivity.this, android.R.layout.simple_dropdown_item_1line, OPERATOR_DATA);
 
         materialBetterSpinner.setAdapter(adapter);
-        materialBetterSpinner.setText(gender_text);
 
 
-        firstname_edit = (EditText) view.findViewById(R.id.first_name);
-        lastname_edit = (EditText) view.findViewById(R.id.last_name);
-        contact_edit = (EditText) view.findViewById(R.id.contact_data);
-        dob_edit = (EditText) view.findViewById(R.id.dob_data);
-        contact_edit.setText(card_text);
 
-
-        firstname_edit.setText(first_name);
-        lastname_edit.setText(last_name);
+        recharge_number_edit = (EditText) view.findViewById(R.id.number);
+        recharge_amount_edit = (EditText) view.findViewById(R.id.amount);
 
 
 
 
-        dob_edit.setText(dob_text);
-
-        dob_edit.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                final Calendar c = Calendar.getInstance();
-                mYear = c.get(Calendar.YEAR);
-                mMonth = c.get(Calendar.MONTH);
-                mDay = c.get(Calendar.DAY_OF_MONTH);
 
 
-                DatePickerDialog datePickerDialog = new DatePickerDialog(MainActivity.this,
-                        new DatePickerDialog.OnDateSetListener() {
-
-                            @Override
-                            public void onDateSet(DatePicker view, int year,
-                                                  int monthOfYear, int dayOfMonth) {
-
-                                dob_edit.setText(year + "-" + (monthOfYear + 1) + "-" + dayOfMonth);
-
-                            }
-                        }, mYear, mMonth, mDay);
-                datePickerDialog.show();
-
-            }
-        });
         submit_btn = (Button) view.findViewById(R.id.submit);
         submit_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
                 dialog.dismiss();
-                mp.put("firstname", firstname_edit.getText().toString());
-                mp.put("lastname", lastname_edit.getText().toString());
-                mp.put("gender", materialBetterSpinner.getText().toString());
-                mp.put("dob", dob_edit.getText().toString());
-                mp.put("contact", contact_edit.getText().toString());
+                mp.put("amount", recharge_amount_edit.getText().toString());
+                mp.put("item", "Recharge of "+recharge_amount_edit.getText().toString()+" for Number "+recharge_number_edit.getText().toString());
+                mp.put("reward", "1");
+
 
                 Gson gson = new Gson();
                 jsrating = gson.toJson(mp);
                 Log.e(TAG, jsrating);
+                dialog.dismiss();
+                doTransaction.execute(jsrating,token);
 
 
             }
@@ -559,7 +534,8 @@ drawer.setBackgroundColor(ContextCompat.getColor(this, R.color.color_primary_dar
     }
     private void transferDialog() {
 
-
+        doTransaction =new DoTransaction (MainActivity.this);
+        doTransaction.delegate = this;
         MaterialDialog.Builder builder = new MaterialDialog.Builder(this)
 
 
@@ -612,7 +588,7 @@ drawer.setBackgroundColor(ContextCompat.getColor(this, R.color.color_primary_dar
 
     @Override
     public void transactionFinish(String Response){
-        Toast.makeText(MainActivity.this, "Successfully Transfered", Toast.LENGTH_SHORT).show();
+        Toast.makeText(MainActivity.this, "Success", Toast.LENGTH_SHORT).show();
     }
     @Override
     public void lastTransactionResult(String Response){

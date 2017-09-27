@@ -56,7 +56,7 @@
             android:id ="@+id/pay_button"
             android:layout_width="130dp"
             android:layout_height="40dp"
-            android:text="Pay"
+            android:text="Recharge"
             android:textColor="@color/cardview_light_background"
             android:background="@drawable/button_animation"
             android:layout_gravity="left"
