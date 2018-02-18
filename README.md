@@ -1,7 +1,6 @@
-An interactive application for Credit card holders  
-An Android Application that makes Credit card Maintainance Easy  
-The APP has been developed as a part of problem statement given by Codefest, IIT BHU.  
-The app fully functional with use of server backend hosted at IBM Bluemix, I will explain the server details in the later part  
+An interactive Fintech Application 
+An Android Application that shows basic implementation of an app like Paytm or Anyother ecommerce application 
+The app fully functional with use of server backend hosted at Heroku, I will explain the server details in the later part  
 It includes all the features stated in problem statement and some additional features too.  
  To see the demo of the application see the video  
  One can Install the app using apk in mobile phone, best made for phones having API 25  
@@ -16,22 +15,9 @@ It includes all the features stated in problem statement and some additional fea
  8. For example, when one buys something from main offer page, its account balance gets reduced by that much amount and he gets some redeem point too according to the problem statement  
  which can be seen in the wallet section of the app  
  9. Similarly, other features include review of transactions done, monthly insights from the transactions etc  
- 
- # Browny points
- Features Included for the claim of browny points as mentioned in the problem statement.  
- The project consists of both a web app and a mobile app. Web App is just an API based APP written in Django and Hosted on Bluemix and Mobile app consumes API services like authentication,   
+ 10. The project consists of both a web app and a mobile app. Web App is just an API based APP written in Django and Hosted on Heroku and Mobile app consumes API services like authentication,   
  fetching of data, handling every other feature of the application.  
- - 60: Category -- Application developed on the 1st problem statement  
- - 10: Accessing SD Card contents - 10: Camera  -- used for uploading profile photo in profile section  
- - 10: Navigation Drawer  -- Can be accessed by tapping hamburger icon in the upper left corner of the screen  
- - 15: Social login (Custom login)  -- custom authentication system made using API based Oauth2 token( API developed in Django and hosted on bluemix) 
- - 15: Using Internet API calls  -- Heavy use of API calls inside the mobile application, all the functions of application, logically implemented  
-                                    using API calls from the internet including(authentication, registration, fetching data like transaction details  
-                                    offers, adding the credit card, profile updating, profile pic uploading from API  
-                                    
-  --WebApp  -- Developed in Django as MVC REST API service for the mobile app  
-  - 40:--IBM Bluemix  hosted on IBM bluemix with URL http://kradapi-semimountainous-bachelorhood.mybluemix.net/admin/  
- for the guest user, to test backend of mobile application, Please use following credentials  
+
 # username - guest  
 # password - guest  
  - 20:--IBM Watson -- used IBM Watson visual recognition service for detection of the face while uploading the profile pic, its avoids and restricts the user from uploading a random pic, only a pic with face in it can be uploaded.  
@@ -42,7 +28,7 @@ face it, the demo is shown at this URL https://youtu.be/1RbhwEQB7DY
 
 # EndNote  
 Installing APK-- https://github.com/dominicneeraj/KardPay/blob/master/app-release.apk 
-Web API URL--  http://kradapi-semimountainous-bachelorhood.mybluemix.net/admin/
+Web API URL--  https://kradapi.herokuapp.com/admin/
 Web API source code -- https://github.com/dominicneeraj/KardPay-Api
 Demo video1--  https://youtu.be/ilZpAZkCBOI
 Demo Video2(implementation of Watson Face detection)  -- https://youtu.be/1RbhwEQB7DY
