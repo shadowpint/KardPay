@@ -1,8 +1,7 @@
-An interactive Fintech Application 
 An Android Application that shows basic implementation of an Recharge/ecommerce application  
 The app fully functional with use of server backend hosted at Heroku    
 
- # Functioning  
+ # Functions
  1. Signup using basic information
  2. Sign in with username and password which you created during signup process  
  3. One can see few offers along with a transfer money and recharge button.  
